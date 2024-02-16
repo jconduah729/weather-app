@@ -24,7 +24,7 @@ const search = async () => {
     if(element[0].value==="")
     {
         return 0;
-    }
+    } 
 
     
 
@@ -40,12 +40,9 @@ const search = async () => {
     const location = document.getElementsByClassName("weather-location");
     temperature[0].innerHTML = Math.floor(data.current.temp_f) + " °F"
 
-    if (data.location.country === "United States of America") {
-        location[0].innerHTML = data.location.name + ", " + data.location.region
-    }
-    else {
-        location[0].innerHTML = data.location.name + ", " + data.location.country
-    }
+ 
+    data.location.country === "United States of America" ? location[0].innerHTML = data.location.name + ", " 
+    + data.location.region : location[0].innerHTML = data.location.name + ", " + data.location.country
 
     humidity[0].innerHTML = data.current.humidity + " %"
     wind[0].innerHTML = data.current.wind_mph + " MPH"
@@ -76,6 +73,7 @@ const search = async () => {
 
 
   return (  
+  <div className="background">
     <div className="container"> 
         <div className="top-bar">
             <input type="text" className="cityInput" placeholder='Search...' 
@@ -106,6 +104,7 @@ const search = async () => {
                 </div>
             </div>
         </div>
+    </div>
     </div>
   )
 }
