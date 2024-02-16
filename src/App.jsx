@@ -1,8 +1,5 @@
 import {React,  useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-
 
 import search_icon from './components/images/search.png';
 import clear_icon from './components/images/clear.png';
@@ -14,23 +11,21 @@ import wind_icon from './components/images/wind.png';
 import humidity_icon from './components/images/humidity.png';
 
 function App() {
-
+    //declare API Key
 let api_key = "414fea084b3947b180a204855240702";
 
 const [wicon,setWicon] = useState(cloud_icon);
 
 const search = async () => {
+    // collect input for Location
     const element = document.getElementsByClassName("cityInput");
     if(element[0].value==="")
     {
         return 0;
     } 
-
-    
-
+    // appends API key and location for API call
     let url = `https://api.weatherapi.com/v1/current.json?key=${api_key}&q=${element[0].value}&aqi=no`
-
-
+    //handle f
     let response = await fetch(url);
     let data = await response.json();
 
@@ -40,38 +35,24 @@ const search = async () => {
     const location = document.getElementsByClassName("weather-location");
     temperature[0].innerHTML = Math.floor(data.current.temp_f) + " °F"
 
- 
-    data.location.country === "United States of America" ? location[0].innerHTML = data.location.name + ", " 
-    + data.location.region : location[0].innerHTML = data.location.name + ", " + data.location.country
+    //logic for displaying State vs Country depending on location
+    data.location.country === "United States of America" ? location[0].innerHTML = data.location.name + ", " + data.location.region :
+     location[0].innerHTML = data.location.name + ", " + data.location.country
 
+    //set wind/humidity values
     humidity[0].innerHTML = data.current.humidity + " %"
     wind[0].innerHTML = data.current.wind_mph + " MPH"
 
-   
-
-    if (data.current.condition.code===1000) {
-        setWicon(clear_icon);
-    }
-    else if (data.current.condition.code===1006 || 1009 || 1003) {
-        setWicon(cloud_icon);
-    }
-    else if (data.current.condition.code===1063 || 1150 || 1153 || 1168 || 1171 || 1180) {
-        setWicon(drizzle_icon);
-    }
-    else if (data.current.condition.code===1183 || 1186 || 1189 || 1240 | 1243 || 1246 
-        || 1273 || 1276 || 1279 || 1282) {
-        setWicon(rain_icon);
-    }
-    else if (data.current.condition.code===1210 || 1213 || 1216 || 1219 || 1222 || 1225 
-        || 1255 || 1258 || 1261 || 1264) {
-        setWicon(snow_icon);
-    }
-    else {
-        setWicon(clear_icon);
-    }
+    // conditions for changing icons
+    data.current.condition.code===1000 ? setWicon(clear_icon) : 
+    data.current.condition.code===1006 || 1009 || 1003 ? setWicon(cloud_icon) :
+    data.current.condition.code===1063 || 1150 || 1153 || 1168 || 1171 || 1180 ? setWicon(drizzle_icon) :
+    data.current.condition.code===1183 || 1186 || 1189 || 1240 | 1243 || 1246 || 1273 || 1276 || 1279 || 1282 ? setWicon(rain_icon) :
+    data.current.condition.code===1210 || 1213 || 1216 || 1219 || 1222 || 1225 || 1255 || 1258 || 1261 || 1264 ? setWicon(snow_icon) :
+    setWicon(clear_icon);
 }
 
-
+    // displaying data
   return (  
   <div className="background">
     <div className="container"> 
@@ -108,7 +89,5 @@ const search = async () => {
     </div>
   )
 }
-
-
 
 export default App;
