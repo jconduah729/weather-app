@@ -25,7 +25,7 @@ const search = async () => {
     } 
     // appends API key and location for API call
     let url = `https://api.weatherapi.com/v1/current.json?key=${api_key}&q=${element[0].value}&aqi=no`
-    //handle f
+    //handle fetch
     let response = await fetch(url);
     let data = await response.json();
 
